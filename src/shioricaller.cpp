@@ -14,8 +14,7 @@ int wmain(int argc, wchar_t* argv[]){
 		return 0;
 	}
 
-	Cshiori shiori;
-	shiori.SetTo(argv[1]);
+	Cshiori shiori{argv[1]};
 	if(not shiori.All_OK()) {
 		std::cerr << "Error: something fucked up." << std::endl;
 		return 1;
