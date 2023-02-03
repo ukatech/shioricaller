@@ -1,0 +1,3 @@
+[submodule "my-gists"]
+	path = src/my-gists
+	url = https://github.com/steve02081504/my-gists.git
