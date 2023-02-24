@@ -18,6 +18,7 @@ Usage 2:        shioricaller shiori.dll
 )
 ```
 
-![screenshot](https://raw.githubusercontent.com/Taromati2/shioricaller/master/screenshot.png)  
+![图片](https://user-images.githubusercontent.com/31927825/221246672-a6af1d14-4e20-4270-b426-19aad7b3b6ec.png)
+
 
 玩得愉快！  
