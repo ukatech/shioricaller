@@ -6,20 +6,24 @@
 #include <iostream>
 #include <string>
 
+#include <ConsoleApi2.h> //GetConsoleScreenBufferInfo & SetConsoleTextAttribute
+#include <ProcessEnv.h> //GetStdHandle
+
 int wmain(int argc, wchar_t* argv[]){
 	InstallExceptionFilter();
 
 	//获取标准输出原有颜色
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	auto stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO out_csbi;
+	GetConsoleScreenBufferInfo(stdout_handle, &out_csbi);
 
 	auto reset_output_color=[&](){
 		//恢复标准输出颜色
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
+		SetConsoleTextAttribute(stdout_handle, out_csbi.wAttributes);
 	};
 	auto set_output_color=[&](WORD color){
 		//设置输出颜色
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+		SetConsoleTextAttribute(stdout_handle, color);
 	};
 
 	if(argc != 2) {
@@ -47,27 +51,27 @@ int wmain(int argc, wchar_t* argv[]){
 	Cshiori shiori{argv[1]};
 	if(not shiori.All_OK()) {
 		//cerr设置颜色到红色
-		SetConsoleTextAttribute(GetStdHandle(STD_ERROR_HANDLE), FOREGROUND_RED | FOREGROUND_INTENSITY);
+		auto stderr_handle = GetStdHandle(STD_ERROR_HANDLE);
+		CONSOLE_SCREEN_BUFFER_INFO err_csbi;
+		GetConsoleScreenBufferInfo(stderr_handle, &err_csbi);
+		SetConsoleTextAttribute(stderr_handle, FOREGROUND_RED | FOREGROUND_INTENSITY);
 		std::cerr << "Error: something fucked up." << std::endl;
+		//恢复标准错误输出颜色
+		SetConsoleTextAttribute(stderr_handle, err_csbi.wAttributes);
 		return 1;
 	}
 
-	std::string req;
-	std::string req_line;
-	while(true) {
+	std::string req_buf,req_line;
+	while(not std::cin.eof()) {
 		//恢复标准输出颜色
 		reset_output_color();
 		std::getline(std::cin, req_line);
-		if(std::cin.eof())break;
-		req += req_line + "\r\n";
+		req_buf += req_line + "\r\n";
 		if(req_line.empty()) {
-			auto res = shiori(req);
 			//设置输出颜色到淡黄色
 			set_output_color(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
-			std::cout << res;
-			req.clear();
+			std::cout << shiori(req_buf);
+			req_buf.clear();
 		}
 	}
-
-	return 0;
 }
