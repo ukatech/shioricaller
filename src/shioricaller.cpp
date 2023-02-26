@@ -4,21 +4,17 @@
 #include "my-gists/ukagaka/shiori_loader.hpp"
 #include "my-gists/windows/GenerateDump.hpp"
 #include "my-gists/windows/EnableVirtualTerminal.hpp"
+#include "my-gists/ansi_color.hpp"
 #include <iostream>
 #include <string>
-
-#define SET_GREEN "\033[32m"
-#define SET_RED "\033[31m"
-#define SET_LIGHT_YELLOW "\033[93m"
-#define RESET_COLOR "\033[0m"
 
 int wmain(int argc, wchar_t* argv[]){
 	InstallExceptionFilter();
 	EnableVirtualTerminal();//for color output
 
 	if(argc != 2) {
-		std::cout << "Usage 1: \t" SET_GREEN "shioricaller shiori.dll < request.txt > response.txt" RESET_COLOR << std::endl
-				  << "Usage 2: \t" SET_GREEN "shioricaller shiori.dll" RESET_COLOR << std::endl
+		std::cout << "Usage 1: \t" GREEN_TEXT("shioricaller shiori.dll < request.txt > response.txt") << std::endl
+				  << "Usage 2: \t" GREEN_TEXT("shioricaller shiori.dll") << std::endl
 				  << "(In Usage 2, you need to:" << std::endl
 				  << "\t1. input request manually" << std::endl
 				  << "\t2. press Enter*2 to send request" << std::endl
@@ -29,16 +25,17 @@ int wmain(int argc, wchar_t* argv[]){
 
 	Cshiori shiori{argv[1]};
 	if(not shiori.All_OK()) {
-		std::cerr << SET_RED "Error: something fucked up." RESET_COLOR << std::endl;
+		std::cerr << RED_TEXT("Error: something fucked up.") << std::endl;
 		return 1;
 	}
 
 	std::string req_buf,req_line;
-	while(not std::cin.eof()) {
+	while(1) {
 		std::getline(std::cin, req_line);
+		if(std::cin.eof())break;
 		req_buf += req_line + "\r\n";
-		if(req_line.empty() && not req_buf.empty()) {
-			std::cout << SET_LIGHT_YELLOW << shiori(req_buf) << RESET_COLOR;
+		if(req_line.empty()) {
+			std::cout << LIGHT_YELLOW_OUTPUT(shiori(req_buf));
 			req_buf.clear();
 		}
 	}
