@@ -23,14 +23,12 @@ int wmain(int argc, wchar_t* argv[]){
 		return 0;
 	}
 
-	auto error_handler = [](const char* str) {
-		std::cerr << RED_OUTPUT("Error: " << str) << std::endl;
+	auto error_handler = [](CshioriError err) {
+		std::cerr << RED_OUTPUT("Error: " << to_ansi_colored_string(err)) << std::endl;
 	};
 	Cshiori shiori{argv[1], error_handler};
-	if(not shiori.All_OK()) {
-		std::cerr << RED_TEXT("Error: something fucked up.") << std::endl;
+	if(not shiori.All_OK())
 		return 1;
-	}
 
 	std::string req_buf,req_line;
 	while(1) {
