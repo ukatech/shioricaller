@@ -14,7 +14,7 @@
 
 int wmain(int argc, wchar_t* argv[]){
 	InstallExceptionFilter();
-	EnableVirtualTerminal();
+	EnableVirtualTerminal();//for color output
 
 	if(argc != 2) {
 		std::cout << "Usage 1: \t" SET_GREEN "shioricaller shiori.dll < request.txt > response.txt" RESET_COLOR << std::endl
@@ -37,7 +37,7 @@ int wmain(int argc, wchar_t* argv[]){
 	while(not std::cin.eof()) {
 		std::getline(std::cin, req_line);
 		req_buf += req_line + "\r\n";
-		if(req_line.empty()) {
+		if(req_line.empty() && not req_buf.empty()) {
 			std::cout << SET_LIGHT_YELLOW << shiori(req_buf) << RESET_COLOR;
 			req_buf.clear();
 		}
