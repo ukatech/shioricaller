@@ -23,7 +23,10 @@ int wmain(int argc, wchar_t* argv[]){
 		return 0;
 	}
 
-	Cshiori shiori{argv[1]};
+	auto error_handler = [](const char* str) {
+		std::cerr << RED_OUTPUT("Error: " << str) << std::endl;
+	};
+	Cshiori shiori{argv[1], error_handler};
 	if(not shiori.All_OK()) {
 		std::cerr << RED_TEXT("Error: something fucked up.") << std::endl;
 		return 1;
