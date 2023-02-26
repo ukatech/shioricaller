@@ -3,6 +3,7 @@
 
 #include "my-gists/ukagaka/shiori_loader.hpp"
 #include "my-gists/windows/GenerateDump.hpp"
+#include "my-gists/windows/EnableVirtualTerminal.hpp"
 #include <iostream>
 #include <string>
 
@@ -13,6 +14,7 @@
 
 int wmain(int argc, wchar_t* argv[]){
 	InstallExceptionFilter();
+	EnableVirtualTerminal();
 
 	if(argc != 2) {
 		std::cout << "Usage 1: \t" SET_GREEN "shioricaller shiori.dll < request.txt > response.txt" RESET_COLOR << std::endl
