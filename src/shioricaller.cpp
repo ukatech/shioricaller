@@ -44,7 +44,7 @@ int wmain(int argc, wchar_t* argv[]){
 		if(std::cin.eof())break;
 		req_buf += req_line + "\r\n";
 		if(req_line.empty()) {
-			auto ret = ukagaka::protocol_message{shiori(req_buf)};
+			const auto ret = ukagaka::protocol_message{shiori(req_buf)};
 			std::cout << to_ansi_colored_string(ret);
 			req_buf.clear();
 		}
