@@ -27,13 +27,11 @@ int wmain(int argc, wchar_t* argv[]){
 	auto error_handler = [](Cshiori::Error err) {
 		std::cerr << RED_OUTPUT("Error: " << to_ansi_colored_string(err)) << std::endl;
 	};
-	auto	warning_handler = nullptr;//shioricaller does not need to handle warnings as it is only used for basic purposes
 
 	Cshiori shiori{
 		argv[1], 
 		Cshiori::error_logger_type{
-			error_handler,
-			warning_handler
+			error_handler
 		}
 	};
 	
