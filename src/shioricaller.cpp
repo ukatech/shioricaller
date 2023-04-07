@@ -2,6 +2,7 @@
 //
 
 #include "my-gists/ukagaka/shiori_loader.hpp"
+#include "my-gists/ukagaka/protocol_message.hpp"
 #include "my-gists/windows/GenerateDump.hpp"
 #include "my-gists/windows/EnableVirtualTerminal.hpp"
 #include "my-gists/ansi_color.hpp"
@@ -45,7 +46,8 @@ int wmain(int argc, wchar_t* argv[]){
 		if(std::cin.eof())break;
 		req_buf += req_line + "\r\n";
 		if(req_line.empty()) {
-			std::cout << LIGHT_YELLOW_OUTPUT(shiori(req_buf));
+			auto ret = ukagaka::protocol_message{shiori(req_buf)};
+			std::cout << to_ansi_colored_string(ret);
 			req_buf.clear();
 		}
 	}
