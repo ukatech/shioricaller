@@ -18,7 +18,6 @@ Usage 2:        shioricaller shiori.dll
 )
 ```
 
-![图片](https://user-images.githubusercontent.com/31927825/221246672-a6af1d14-4e20-4270-b426-19aad7b3b6ec.png)
-
+![图片](https://user-images.githubusercontent.com/31927825/230563146-f064485d-3de8-42fc-bf17-d848461bd3c4.png)
 
 玩得愉快！  
