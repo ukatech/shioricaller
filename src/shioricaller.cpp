@@ -61,7 +61,10 @@ int wmain(int argc, wchar_t* argv[]){
 			req_buf += req_line + "\r\n";
 			if(req_line.empty()) {
 				const auto ret = ukagaka::protocol_message{shiori(req_buf)};
-				out << to_ansi_colored_string(ret);
+				if(out.is_console())
+					out << to_ansi_colored_wstring(ret);
+				else
+					out << std::string(ret);
 				req_buf.clear();
 			}
 		}
